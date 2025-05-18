@@ -1,0 +1,24 @@
+Model Accuracy: 81.67%
+
+--- Disease Prediction ---
+Enter 'yes' or 'no' for each symptom:
+Do you have fever? (yes/no): yes
+Do you have cough? (yes/no): yes
+Do you have fatigue? (yes/no): yes
+Do you have headache? (yes/no): no
+Do you have sore throat? (yes/no): yes
+Do you have runny nose? (yes/no): yes
+Do you have shortness of breath? (yes/no): no
+Do you have chest pain? (yes/no): no
+Do you have nausea? (yes/no): no
+Do you have vomiting? (yes/no): no
+Do you have diarrhea? (yes/no): no
+Do you have loss of appetite? (yes/no): no
+Do you have muscle pain? (yes/no): yes
+Do you have skin rash? (yes/no): no
+Do you have joint pain? (yes/no): no
+
+Predicted Disease: Flu
+
+Predict for another patient? (yes/no): no
+Exiting...
