@@ -1,0 +1,72 @@
+# disease_prediction_ai.py
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import warnings
+warnings.filterwarnings("ignore")
+
+# Simulated dataset
+symptoms = [
+    "fever", "cough", "fatigue", "headache", "sore_throat", "runny_nose",
+    "shortness_of_breath", "chest_pain", "nausea", "vomiting", "diarrhea",
+    "loss_of_appetite", "muscle_pain", "skin_rash", "joint_pain"
+]
+
+diseases = [
+    "Common Cold", "Flu", "COVID-19", "Food Poisoning", "Malaria", "Typhoid"
+]
+
+# Simulate data
+def generate_patient_data(n_samples=1000):
+    data = []
+    for _ in range(n_samples):
+        symptom_vector = np.random.randint(0, 2, len(symptoms))
+        if sum(symptom_vector) == 0:
+            continue  # ensure at least one symptom
+
+        disease = np.random.choice(diseases, p=[0.2, 0.2, 0.2, 0.15, 0.15, 0.1])
+        data.append(symptom_vector.tolist() + [disease])
+    return data
+
+# Create DataFrame
+data = generate_patient_data(1200)
+df = pd.DataFrame(data, columns=symptoms + ['Disease'])
+
+# Preprocessing
+X = df[symptoms]
+y = df['Disease']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Model
+model = DecisionTreeClassifier(criterion="entropy")
+model.fit(X_train, y_train)
+
+# Evaluation
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Model Accuracy: {:.2f}%".format(accuracy * 100))
+
+# Function to take user input and predict
+def predict_disease():
+    print("\n--- Disease Prediction ---")
+    print("Enter 'yes' or 'no' for each symptom:")
+    input_vector = []
+    for symptom in symptoms:
+        val = input(f"Do you have {symptom.replace('_', ' ')}? (yes/no): ").lower()
+        input_vector.append(1 if val == 'yes' else 0)
+    prediction = model.predict([input_vector])[0]
+    print(f"\nPredicted Disease: {prediction}")
+
+# Loop for user interaction
+if __name__ == "__main__":
+    while True:
+        predict_disease()
+        again = input("\nPredict for another patient? (yes/no): ").lower()
+        if again != "yes":
+            print("Exiting...")
+            break
